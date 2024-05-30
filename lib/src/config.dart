@@ -17,7 +17,7 @@ final configProvider = Provider<Config>(
 // coverage:ignore-end
 
 @freezed
-class Config with _$Config {
+sealed class Config with _$Config {
   const Config._();
 
   @DirectoryJsonConverter()

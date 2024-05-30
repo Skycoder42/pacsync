@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed
+- Update dependencies
+
 ## [1.2.5] - 2024-03-14
 ### Changed
 - Updated dependencies
@@ -65,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
+[Unreleased]: https://github.com/Skycoder42/paxchange/compare/v1.2.5...vHEAD
 [1.2.5]: https://github.com/Skycoder42/paxchange/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/Skycoder42/paxchange/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/Skycoder42/paxchange/compare/v1.2.2...v1.2.3

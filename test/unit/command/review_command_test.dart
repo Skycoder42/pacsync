@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:dart_test_tools/test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,8 +10,6 @@ import 'package:riverpod/riverpod.dart';
 import 'package:test/test.dart';
 
 class MockArgResults extends Mock implements ArgResults {}
-
-class MockConfig extends Mock implements Config {}
 
 class MockDiffEditor extends Mock implements DiffEditor {}
 
@@ -22,8 +22,12 @@ class TestableReviewCommand extends ReviewCommand {
 
 void main() {
   group('$ReviewCommand', () {
+    const rootPackageFile = 'root-package';
+    final testConfig = Config(
+      storageDirectory: Directory.systemTemp,
+      machineName: rootPackageFile,
+    );
     final mockArgResults = MockArgResults();
-    final mockConfig = MockConfig();
     final mockDiffEditor = MockDiffEditor();
 
     late ProviderContainer providerContainer;
@@ -32,14 +36,13 @@ void main() {
 
     setUp(() async {
       reset(mockArgResults);
-      reset(mockConfig);
       reset(mockDiffEditor);
 
       when(() => mockDiffEditor.run(any())).thenReturnAsync(null);
 
       providerContainer = ProviderContainer(
         overrides: [
-          configProvider.overrideWithValue(mockConfig),
+          configProvider.overrideWithValue(testConfig),
           diffEditorProvider.overrideWithValue(mockDiffEditor),
         ],
       );
@@ -65,25 +68,20 @@ void main() {
 
     group('run', () {
       test('runs diff editor with default machine name', () async {
-        const rootPackageFile = 'root-package';
         when<dynamic>(() => mockArgResults[any()]).thenReturn(null);
-        when(() => mockConfig.rootPackageFile).thenReturn(rootPackageFile);
 
         final result = await sut.run();
 
         verifyInOrder<dynamic>([
           () => mockArgResults[ReviewCommand.machineNameOption],
-          () => mockConfig.rootPackageFile,
           () => mockDiffEditor.run(rootPackageFile),
         ]);
         expect(result, 0);
       });
 
       test('runs diff editor with custom machine name', () async {
-        const rootPackageFile = 'root-package';
         const givenPackageFile = 'other-package';
         when<dynamic>(() => mockArgResults[any()]).thenReturn(givenPackageFile);
-        when(() => mockConfig.rootPackageFile).thenReturn(rootPackageFile);
 
         final result = await sut.run();
 

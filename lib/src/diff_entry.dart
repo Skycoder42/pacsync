@@ -12,7 +12,7 @@ class DecodingFailure implements Exception {
 }
 
 @freezed
-class DiffEntry with _$DiffEntry implements Comparable<DiffEntry> {
+sealed class DiffEntry with _$DiffEntry implements Comparable<DiffEntry> {
   const DiffEntry._();
 
   const factory DiffEntry.added(String package) = _Added;
